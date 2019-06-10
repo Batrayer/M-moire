@@ -157,9 +157,9 @@ e3        &$(e2, B, 1)$  & $(e2, A, 1)$  & $-$ \\
 e4        &$(e1, A, 1)$   & $(e1, B, 1)$  &  $-$\\ 
         \hline 
     \end{tabular}
-    \captionof{table}{Représentation d'une machine de Turing\newline}
+    \captionof{table}{Représentation d'une machine de Turing}
 \end{center}
-
+\vspace{0.4cm}
 \begin{itemize}
     \item \textbf{e1, e3}, inverse A et B.
     \item \textbf{e2, e4}, avance le pointeur d'une case dans la bande sans modifier A et B. 
@@ -168,9 +168,10 @@ e4        &$(e1, A, 1)$   & $(e1, B, 1)$  &  $-$\\
 
 \section{Vitesse d'exécution et nombre d'opération élémentaire}
 %Faire le lien entre machine de Turing et ordi actuel (MT restreinte mémoire finiepar exemple)
+
 Le but d'une étude sur la complexité algorithmique d'une fonction est de pouvoir comparer deux fonctions différentes. Il existe plusieurs points de comparaison entre deux fonctions. D'un côté nous avons le temps d'exécution de la fonction, à savoir laquelle des deux est la plus rapide pour se terminer. De l'autre l'espace mémoire utilisé par la machine lors de l'exécution de ces fonctions. 
 
-
+Dans ce mémoire nous nous intéresserons principalement à l'étude des temps d'exécutions de fonctions. Une approche naïve pour calculer le temps d'exécutions des fonctions pourrait consister à mettre deux points d'arrêt dans le code. Le premier avant l'exécution de la fonction, et le second après. Cependant, il ne s'agit pas d'un moyen fiable pour exécuter une comparaison. 
 
 \subsection{Évolution de la vitesse de calcul des ordinateurs}
 
@@ -184,11 +185,24 @@ Avec toutes ces évolutions, comparer le temps d'exécution du même programme n
 
 \subsubsection{Définition de la complexité }
 
-\subsection{Définition d'une opération élémentaire} %%%TODO%%%
+Afin de comparer deux codes, il est nécessaire de pouvoir différencier les codes sans les exécuter. C'est donc à partir de ce point qu'intervient la complexité algorithmique.
 
-Afin de pouvoir définir la complexité algorithmique je vais définir une opération élémentaire. Précédemment j'ai montré qu'il était impossible de comparer l'exécution d'un code d'un ordinateur à un autre. Cependant chaque ordinateur contient les même types de composants, mémoire RAM, carte mère, stockage de données ... Le matériel qui effectue les calculs dans un ordinateur correspond au processeur.  
-Être capable d'identifier la perf d'un algo peut import les specs d'un ordi
-Permet de comparer de manière théorique et non plus pratique.
+La complexité d'un algorithme est la quantité de ressources nécessaires pour traiter les entrées de cet algorithme.\cite{complexite01}
+
+Au lieu de calculer combien de temps en secondes le code va utiliser pour se terminer, nous pouvons chercher combien d'opérations l'ordinateur doit effectuer pour terminer le code. Une fois ce nombre déterminé, nous avons l'occasion de calculer combien de temps la machine devrait utiliser en seconde. Et ce pour chaque machine existante, peu importe la configuration de cette machine.
+
+\subsection{Définition d'une opération élémentaire}
+
+Nous définirons une opérations élémentaire comme étant une opération qu'une machine de Turing peut effectuer. Cela regroupe :
+
+\begin{itemize}
+    \item Accès à la mémoire 
+    \item Bouger le pointeur
+    \item Écrire dans la mémoire
+    \item Changement d'état
+\end{itemize}
+
+Dans le cadre de l'étude d'un code C, nous retrouvons ces opérations élémentaires dans les calculs, les comparaisons, l'affectation de variables ... Il s'agit de toute les petites instructions du code.
 
 \section{Évolution asymptotique du nombre d'opérations élémentaires}
 
@@ -325,7 +339,7 @@ Ici nous avons l'équivalent d'une recette de cuisine avec comme ingrédients : 
 
 Nous pouvons observer aussi qu'il existe pour un même algorithme plusieurs façon de l'écrire dans un langage commun. Reprenons le tri à bulle. Il s'agit d'un algorithme permettant de trier un tableau. Ce tri lit les éléments du tableau par ordre croissant des indices et inverse les nombres qui ne sont pas ordonnés.
 
-\lstinputlisting[caption=Tri à bulle en C, style=customc]{CodeSource/triabulle.c}
+\lstinputlisting[caption=Tri à bulle en C, captionpos=b, style=customc]{CodeSource/triabulle.c}
 
 Mais rien n'empêche le développeur de trier le tableau dans le sens inverse. Il peut commencer à lire le tableau par les indices descendants, l'algorithme utilisé reste le même. Cela parait anodin comme changement mais les répercussions sont importantes dans le code. Par exemples, les conditions des itérations changent entièrement.
 
@@ -340,22 +354,19 @@ Nous venons de montrer que pour un algorithme, nous pouvions retrouver plusieurs
 
 \subsubsection{Terminaison d'une fonction : un problème indécidable}
 
-En 1936, Alan Turing prouve qu'il n'est pas possible de déterminer à partir d'un programme informatique si un autre programme s'arrête. Il détermine donc qu'il s'agit d'un problème indécidable.
+En 1936, Alan Turing prouve qu'il n'est pas possible de déterminer à partir d'un programme informatique si un autre programme s'arrête. Il détermine donc qu'il s'agit d'un problème indécidable. Il affirme qu'un outil permettant de répondre au problème de l'arrêt n'est pas possible à faire avec les quatre points suivants : 
 
-%%%TODO c'est du copié collé ATM de \cite{codesource02}%%%
-Il est donc impossible de déterminer dans tous les cas possibles si un programme est fini. 
 \begin{enumerate}
-    \item automatique (sans intervention humaine, annotation, etc.) ;
-    \item correcte (sound — elle ne donne pas de résultats faux) ;
-    \item complète (complete — elle est capable de prouver tous les résultats
-    vrais) ;
-    \item non limitée à des exécutions ou des mémoires bornées.
+    \item Analyse automatique de tous les codes, sans intervention humaine
+    \item Sans erreurs
+    \item Est capable de répondre à toutes les entrées de la fonction
+    \item non limitée à des exécutions ou des mémoires bornées
 \end{enumerate}
-\cite{codesource02} théorème de Rice
+
+
+Il s'agit ici d'un problème clé à notre réalisation. Le calcul de la complexité algorithmique n'est qu'une sous parties de ce problème. Cependant, nous ne cherchons pas à pouvoir analyser toutes les fonctions, mais uniquement le code d'étudiant développeurs. Dans un cas aussi spécifique, il reste envisageable de créer notre outil.  
 
 \subsubsection{Exemple d'évaluation de la complexité en pire cas d'un algorithme}
-
-%%%Extraire une formule qui dépend de taille. La complexité est donc en lien avec la valeur de taille. Puis dire que l'objectif de mémoir c'est d'automatiser ce qui vient d'être fait à la main sur une fonction simple => probleme d'indécadibilité obligation de se résoudre à utiliser un sous langage Trop restreint pas d'algo interessant, pas assez pas de bonnes automatisation%%%
 
 Reprenons le code C du tri à bulle. Je vais à présent dérouler la méthode vue en 2.4 afin de calculer le nombre d'opérations élémentaires effectuées en pire cas pour ce code C. 
 
@@ -391,28 +402,30 @@ Elle peut être réduite en : \[O((10*taille) * taille) => O(taille^{2})\]
 
 \subsection{Arbre syntaxique}
 
-Un arbre de syntaxe abstraite est une représentation du code. Il s'agit d'un graphe ayant comme noeud chaque interaction du code. Je vais présenter à titre d'exemple deux types n\oe{}uds que nous pouvons retrouver dans un code.
+Un arbre de syntaxe abstraite est une représentation du code. Il s'agit d'un graphe ayant comme noeud chaque interaction du code. Ce graphique est un élément clé pour la visualisation du code. Il permet de modéliser tous les codes que nous pouvons lui fournir. Une fois la modélisation obtenue, il devient plus simple de pouvoir analyser un code. Il s'agit du point clé de notre automatisation d'analyse de complexité.  
+
+Je vais présenter à titre d'exemple deux types n\oe{}uds que nous pouvons retrouver dans un code : Les n\oe{}uds opération binaire et les n\oe{}uds conditionnels. Il s'agit de n\oe{}ud simple que nous rencontrerons dans la majorité des fonctions en c. D'autre n\oe{}uds aurait pu être inclus, tel que les n\oe{}ud d'itérations (For, while, do while).
 
 \subsubsection{Les n\oe{}uds opération binaire}
 
 Ces n\oe{}uds représentent tous les calculs dans les outils. Ils sont représentés par trois éléments : un côté droit, un côté gauche et un opérateur. Les deux côtés de l'opération peuvent être représentés par une nouvelle opération binaire. L'opérateur est la méthode de calcul entre les éléments gauche et droit, par exemple +, -, /, *, \% etc. Nous pouvons donc écrire le code suivant :
 
-\lstinputlisting[caption=Code d'une affectation de variable, style=customc]{Ast/assignement.c}
+\lstinputlisting[caption=Code d'une affectation de variable, captionpos=b, style=customc]{Ast/assignement.c}
 Sous la forme de l'arbre syntaxique suivant : 
 \begin{center}
     \begin{figure}[H]
-        \includegraphics[height=8cm,width=12cm]{Ast/ASTBinaryNode.png}
+        \includegraphics[height=10cm,width=14cm]{Ast/ASTBinaryNode.png}
         \caption{Arbre syntaxique du n\oe{}ud binaire}
     \end{figure}
 \end{center}
 
 \subsubsection{Les n\oe{}uds conditionnels}
 Ces n\oe{}uds correspondent aux conditions ; ils sont composés de plusieurs sous n\oe{}uds. Le premier est un n\oe{}ud d'opération binaire pour la condition. Ensuite il contient deux blocs de n\oe{}uds représentant soit le cas où la condition est valide soit le cas où elle n'est pas respectée. Prenons le code suivant comme exemple.
-    \lstinputlisting[caption=Code d'un if, style=customc]{Ast/if.c}
+    \lstinputlisting[caption=Code d'un if, captionpos=b, style=customc]{Ast/if.c}
     Nous le retrouvons avec comme représentation sous forme d'arbre :
     \begin{figure}[H]
         \begin{center}
-            \includegraphics[height=8cm,width=14cm]{Ast/ASTIfNode.png}
+            \includegraphics[height=10cm,width=14cm]{Ast/ASTIfNode.png}
             \caption{Arbre syntaxique d'un n\oe{}ud conditionnel}
         \end{center}
     \end{figure}
@@ -449,11 +462,11 @@ Afin de créer un code durable et entretenable suite aux évolutions des besoins
 
 \section{Notre choix d'outil}
 
-PycParser => transforme le code en arbre syntaxique grâce à gcc
+Pour notre implémentation, nous disposons de plusieurs outils possible. Le premier outil notable est la bibliothèque clang-llvm. Elle est composé du compilateur clang qui contient une option permettant d'extraire l'AST d'un code source, et implémente aussi une interface permettant d'exécuter des actions sur ces extractions. 
+
+Le second outil, et celui que nous avons choisis fut PycParser. Il s'agit d'une bibliothèque python utilisant au choix le compilateur gcc ou clang. Cette bibliothèque vient avec une fonction d'exemple permettant de convertir l'AST sous la forme d'un format JSON qui est plus simple à manipuler.
 
 \chapter{Implémentation}
-
-// EXPLICATION
 
 \section{Restriction du langage}
 
@@ -461,11 +474,11 @@ Comme nous l'avons expliqué auparavant, il n'est pas possible de faire un algor
 
 Pour cela nous avons décidé d'exclure plusieurs pratiques de code et d'ignorer certaines fonctionnalités du c. Par exemple en c nous pouvons utiliser des labels et des GOTO. Cette fonctionnalité n'est pas recommandée et obfusque le code. Ce type de méthode rend beaucoup plus complexe l'analyse. Durant les enseignements, cette méthode est d'ailleurs fortement déconseillée par les professeurs. Nous allons donc ignorer les codes contenant des GOTO.
 
-Afin de traiter de manière efficace le code, nous nous concentrerons sur des code c utilisant des types de bases. Les étudiants seront amenés, en apprenant la programmation, à créer des structures de données avec la méthode \textit{struct}. L'utilisation de ces structures peut rendre des codes complexes sans pour autant affecter l'algorithme que l'étudiant souhaite implémenter. Nous nous concentrerons donc sur des algorithmes utilisant les types primitifs du C, puisqu'un étudiant capable d'écrire un code fonctionnant avec des types primitifs sera capable de réécrire son code après analyse avec une structure, l'algorithme restant inchangé. // MAL DIT
+Afin de traiter de manière efficace le code, nous nous concentrerons sur des code c utilisant des types de bases. Les étudiants seront amenés, en apprenant la programmation, à créer des structures de données avec la méthode \textit{struct}. L'utilisation de ces structures peut rendre des codes complexes sans pour autant affecter l'algorithme que l'étudiant souhaite implémenter. Nous nous concentrerons donc sur des algorithmes utilisant les types primitifs du C, puisqu'un étudiant capable d'écrire un code fonctionnant avec des types primitifs sera capable de réécrire son code après analyse avec une structure, l'algorithme restant inchangé. 
 
 Un autre problème complexe vient avec la gestion des pointeurs en C. Il s'agit ici d'un élément clé de ce langage. Les pointeurs, l'allocation dynamique est un rite de passage pour tout étudiant apprenant la programmation C. Cependant il est extrêmement difficile d'analyser un code utilisant des pointeurs et une gestion dynamique de mémoire. Obtenir la variable d'un code source via son adresse rend presque impossible l'étude d'un algorithme, ou nécessite de créer un outil bien trop spécifique à ce cas. Mais nous ne pouvons pas nous passer des tableaux dans un langage de programmation.  C'est pour cela que nous nous orienterons vers une analyse de code utilisant le sucre syntaxique du c sur les tableaux.
 
-Limitation à une fonction %%%TODO%%%
+Nous avons aussi énormément élargis la définition d'une opération élémentaire. Par exemple, l'appel à une fonction interne au C tel que le scanf ou le printf sont considéré comme une seul opération. Ce qui en réalité n'est pas forcément précis.  
 
 \section{Proposition}
 
